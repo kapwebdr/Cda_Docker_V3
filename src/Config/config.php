@@ -21,5 +21,9 @@ if(file_exists(DIR_PROJECT_CONFIG.'routes.php'))
 {
     require_once(DIR_PROJECT_CONFIG.'routes.php');
 }
+if(file_exists(DIR_PROJECT_CONFIG.'config.php'))
+{
+    require_once(DIR_PROJECT_CONFIG.'config.php');
+}
 
 require_once(DIR_SRC.'vendor/autoload.php');

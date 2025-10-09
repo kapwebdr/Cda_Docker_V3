@@ -8,7 +8,7 @@
 {/if}
 
 {foreach key=i item=student from=$students}
-    {include file="components/card_student.tpl" number=$i name=$student.name}
+    {include file="components/card_student.tpl" number=$i name=$student.nom_it}
 {foreachelse}
     Aucun student
 {/foreach}
