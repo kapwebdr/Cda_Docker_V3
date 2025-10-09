@@ -5,7 +5,7 @@ class Main
 {
     static function Router()
     {
-        echo 'Bonjour';
+        echo 'Main::Router';
     }
 
 }
