@@ -1,0 +1,48 @@
+services:
+ nginx:
+  image: nginx:1.28.0-bookworm
+  container_name: cda_formation_nginx
+  ports:
+    - 8899:80
+    - 8898:81
+  volumes:
+    - ./src:/app
+    - ./nginx/config.conf:/etc/nginx/conf.d/default.conf
+  depends_on:
+    - php
+  networks:
+    - cda_formation
+
+ php:
+  image: cda_php:0.2-8.4.13-fpm-trixie
+  container_name: cda_formation_php
+  volumes:
+    - ./src:/app
+  depends_on:
+    - mariadb
+  networks:
+    - cda_formation
+ mariadb:
+  image: mariadb:12.0.2
+  container_name: cda_formation_mariadb
+  environment:
+    - MARIADB_ROOT_PASSWORD=${MARIA_DB_ROOT_PWD}
+    - MARIADB_USER=${MARIA_DB_USER}
+    - MARIADB_PASSWORD=${MARIA_DB_USER_PWD}
+  volumes:
+    - ./dump/:/docker-entrypoint-initdb.d
+  networks:
+    - cda_formation
+
+ phpmyadmin:
+  image: phpmyadmin:latest
+  container_name: cda_formation_phpmyadmin
+  ports:
+    - 8890:80
+  links:
+    - mariadb:db
+  networks:
+    - cda_formation
+
+networks:
+  cda_formation: 
