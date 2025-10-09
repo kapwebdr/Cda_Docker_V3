@@ -40,7 +40,7 @@ class Main
                 $vars = $routeInfo[2];
 
                 $handler[0] = new $handler[0];
-                call_user_func($handler, $vars);
+                call_user_func($handler, ...$vars);
 
                 break;
         }
