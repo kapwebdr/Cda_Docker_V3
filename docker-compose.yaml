@@ -14,7 +14,7 @@ services:
     - cda_formation
 
  php:
-  image: cda_php:0.2-8.4.13-fpm-trixie
+  build: .
   container_name: cda_formation_php
   volumes:
     - ./src:/app

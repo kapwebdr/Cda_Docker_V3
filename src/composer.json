@@ -1,0 +1,19 @@
+{
+    "name": "kapweb/cda_v3",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Damien RICHARD"
+        }
+    ],
+    "optimize-autoloader": true,
+    "autoload": {
+        "psr-4": {
+            "App\\Controller\\":"App/Controller/",
+            "App\\Model\\":"App/Model/"
+        }
+    },
+    "require": {
+        "nikic/fast-route": "^1.3"
+    }
+}
