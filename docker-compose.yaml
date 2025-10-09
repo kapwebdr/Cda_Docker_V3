@@ -16,6 +16,7 @@ services:
  php:
   build: .
   container_name: cda_formation_php
+  # command: sh -c "cd /app && composer install --ignore-platform-reqs && "
   volumes:
     - ./src:/app
   depends_on:
