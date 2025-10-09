@@ -14,3 +14,5 @@ define('DIR_PROJECT_MODEL',DIR_PROJECT.'/Model');
 define('DIR_PROJECT_CONTROLLER',DIR_PROJECT.'/Controller');
 define('DIR_PROJECT_VIEWS',DIR_PROJECT.'/Views');
 define('DIR_PROJECT_PUBLIC',DIR_PROJECT.'/Public');
+
+require_once(DIR_SRC.'vendor/autoload.php');
