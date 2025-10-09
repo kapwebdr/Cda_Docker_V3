@@ -7,7 +7,7 @@ $routes =
             'controller'=>['Projects\Altera\Controller\Home','Index']
     ],
     '/user/{id:\d+}' => [
-            'method'=>['GET','POST'],
+            'method'=>['GET'],
             'controller'=>['Projects\Altera\Controller\User','getUserById']
         ]
 ];

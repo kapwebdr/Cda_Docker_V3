@@ -4,14 +4,14 @@ namespace App\Controller;
 // https://github.com/nikic/FastRoute
 class Main
 {
-    static function Router()
+    static function Router(array $routes=[])
     {
-        $dispatcher = \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $r) {
-            $r->addRoute('GET', '/users', 'get_all_users_handler');
-            // {id} must be a number (\d+)
-            $r->addRoute('GET', '/user/{id:\d+}', 'get_user_handler');
-            // The /{title} suffix is optional
-            $r->addRoute('POST', '/articles/{id:\d+}[/{title}]', 'get_article_handler');
+        $dispatcher = \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $r) use($routes) {
+            
+            foreach($routes as $uri => $route)
+            {
+                $r->addRoute($route['method'], $uri, $route['controller']);
+            }
         });
 
         // Fetch method and URI from somewhere
@@ -39,9 +39,8 @@ class Main
                 $handler = $routeInfo[1];
                 $vars = $routeInfo[2];
 
-                echo 'la route existe';
-                echo $handler;
-                var_dump($vars);
+                $handler[0] = new $handler[0];
+                call_user_func($handler, $vars);
 
                 break;
         }

@@ -15,4 +15,10 @@ define('DIR_PROJECT_CONTROLLER',DIR_PROJECT.'Controller/');
 define('DIR_PROJECT_VIEWS',DIR_PROJECT.'Views/');
 define('DIR_PROJECT_PUBLIC',DIR_PROJECT.'Public/');
 
+$routes = [];
+if(file_exists(DIR_PROJECT_CONFIG.'routes.php'))
+{
+    require_once(DIR_PROJECT_CONFIG.'routes.php');
+}
+
 require_once(DIR_SRC.'vendor/autoload.php');
