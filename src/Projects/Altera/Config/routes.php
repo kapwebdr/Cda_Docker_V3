@@ -11,3 +11,8 @@ $routes =
             'controller'=>['Projects\Altera\Controller\User','getUserById']
         ]
 ];
+/*
+categories/ liste des categories
+categories/ecrans-12 => listes des produits de la cat écran.
+/categories/{slug}-{id:\d+}
+*/

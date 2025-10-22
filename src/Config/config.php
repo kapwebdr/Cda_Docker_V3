@@ -27,3 +27,5 @@ if(file_exists(DIR_PROJECT_CONFIG.'config.php'))
 }
 
 require_once(DIR_SRC.'vendor/autoload.php');
+
+\App\Controller\Session::Start();
