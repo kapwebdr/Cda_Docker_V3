@@ -9,7 +9,17 @@ $routes =
     '/user/{id:\d+}[/{title}]' => [
             'method'=>['GET'],
             'controller'=>['Projects\Altera\Controller\User','getUserById']
-        ]
+    ],
+    '/upload'=>
+    [
+        'method'=>['GET','POST'],
+        'controller'=>['Projects\Altera\Controller\User','uploadAvatar']
+    ],
+    '/img/avatar/{file}'=>
+    [
+        'method'=>['GET'],
+        'controller'=>['Projects\Altera\Controller\User','getAvatar']
+    ]
 ];
 /*
 categories/ liste des categories

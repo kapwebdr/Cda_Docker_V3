@@ -1,6 +1,8 @@
 <?php
 namespace Projects\Altera\Controller;
 
+use App\Controller\View;
+
 class User
 {
 
@@ -40,7 +42,40 @@ class User
     //     var_dump($vars);
     //     $id = $vars['id'];
     // }
+    public function uploadAvatar()
+    {
+        echo '<pre>';
+        var_dump($_FILES);
+        echo '</pre>';
+        // if(isset($_FILES)
+        //     && is_array($_FILES)
+        //     && isset($_FILES['fichiers'])
+        //     && is_array($_FILES['fichiers'])
+        //     && isset($_FILES['fichiers']['tmp_name'])
+        //     )
+        // {
+        //     $fichiers = $_FILES['fichiers'];
 
+        //     echo $fichiers['name'].'('.$fichiers['size'].')'.'<br/>';
+        //     echo $fichiers['tmp_name'].'<br/>';
+
+        //     $result = move_uploaded_file($fichiers['tmp_name'],DIR_PROJECT_PRIVATE.'uploads/'.$fichiers['name']);
+        //     var_dump($result);
+        // }
+
+        foreach($_FILES['fichiers']['name'] as $key=>$name)
+        {
+            $tmp_name = $_FILES['fichiers']['tmp_name'][$key];
+            $result = move_uploaded_file($tmp_name,DIR_PROJECT_PRIVATE.'uploads/'.$name);
+        }
+
+        echo '<pre>';
+            var_dump($_POST);
+        echo '</pre>';
+        
+        View::Init();
+        View::$smarty->display('upload.tpl');
+    }
     public function getUserById(int $id,string $title='')
     {
       //  session_start();
@@ -50,4 +85,18 @@ class User
         var_dump($id);
         var_dump($title);
     }
+
+    public function getAvatar($file)
+    {
+        $filepath = DIR_PROJECT_PRIVATE.'uploads/'.$file;
+        if( file_exists($filepath) )
+        {
+            header('Content-Type: image/png');
+            header('Content-Length: ' . filesize($filepath));
+            header('Cache-Control: public, max-age=86400'); // 1 jour
+            header('Content-Disposition: inline; filename="' . basename($filepath) . '"');
+            readfile($filepath);
+        }
+    }
+
 }
