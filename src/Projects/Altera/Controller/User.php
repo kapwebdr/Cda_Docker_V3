@@ -2,7 +2,8 @@
 namespace Projects\Altera\Controller;
 
 use App\Controller\View;
-
+use App\Controller\Session;
+use App\Controller\ImageResizer;
 class User
 {
 
@@ -44,16 +45,18 @@ class User
     // }
     public function uploadAvatar()
     {
-        echo '<pre>';
-        var_dump($_FILES);
-        echo '</pre>';
-        // if(isset($_FILES)
-        //     && is_array($_FILES)
-        //     && isset($_FILES['fichiers'])
-        //     && is_array($_FILES['fichiers'])
-        //     && isset($_FILES['fichiers']['tmp_name'])
-        //     )
-        // {
+        View::Init();
+
+        // echo '<pre>';
+        // var_dump($_FILES);
+        // echo '</pre>';
+         if(isset($_FILES)
+            && is_array($_FILES)
+            && isset($_FILES['fichiers'])
+            && is_array($_FILES['fichiers'])
+            && isset($_FILES['fichiers']['tmp_name'])
+            )
+        {
         //     $fichiers = $_FILES['fichiers'];
 
         //     echo $fichiers['name'].'('.$fichiers['size'].')'.'<br/>';
@@ -61,19 +64,90 @@ class User
 
         //     $result = move_uploaded_file($fichiers['tmp_name'],DIR_PROJECT_PRIVATE.'uploads/'.$fichiers['name']);
         //     var_dump($result);
-        // }
+        
 
-        foreach($_FILES['fichiers']['name'] as $key=>$name)
-        {
-            $tmp_name = $_FILES['fichiers']['tmp_name'][$key];
-            $result = move_uploaded_file($tmp_name,DIR_PROJECT_PRIVATE.'uploads/'.$name);
+            foreach($_FILES['fichiers']['name'] as $key=>$name)
+            {
+                $tmp_name = $_FILES['fichiers']['tmp_name'][$key];
+                $result = move_uploaded_file($tmp_name,DIR_PROJECT_PRIVATE.'uploads/'.$name);
+
+                $image= new ImageResizer(
+                    [
+                        'width'             => 50,
+                        'height'            => 50,
+                        'mode'              => 'cover',        // fit|cover|width|height
+                        'output'            => 'png',        // format par défaut
+                        'quality'           => 82,           // pour jpeg/webp
+                        'png_compression'   => 9,            // 0 (rapide) → 9 (max compression)
+                        'strip'             => true,
+                        'background'        => 'white',
+                        'progressive'       => true,
+                    ]
+                );
+                $image->process(DIR_PROJECT_PRIVATE.'uploads/'.$name,
+                DIR_PROJECT_PRIVATE.'uploads/50x50/'.$name);
+
+                $image= new ImageResizer(
+                    [
+                        'width'             => 200,
+                        'height'            => 200,
+                        'mode'              => 'width',        // fit|cover|width|height
+                        'output'            => 'png',        // format par défaut
+                        'quality'           => 82,           // pour jpeg/webp
+                        'png_compression'   => 9,            // 0 (rapide) → 9 (max compression)
+                        'strip'             => true,
+                        'background'        => 'white',
+                        'progressive'       => true,
+                    ]
+                );
+                $image->process(DIR_PROJECT_PRIVATE.'uploads/'.$name,
+                DIR_PROJECT_PRIVATE.'uploads/200x200/'.$name);
+
+                $image= new ImageResizer(
+                    [
+                        'width'             => 1000,
+                        'height'            => 500,
+                        'mode'              => 'height',        // fit|cover|width|height
+                        'output'            => 'png',        // format par défaut
+                        'quality'           => 82,           // pour jpeg/webp
+                        'png_compression'   => 9,            // 0 (rapide) → 9 (max compression)
+                        'strip'             => true,
+                        'background'        => 'white',
+                        'progressive'       => true,
+                    ]
+                );
+                $image->process(DIR_PROJECT_PRIVATE.'uploads/'.$name,
+                DIR_PROJECT_PRIVATE.'uploads/1000x100/'.$name);
+            }
+            echo '<pre>';
+                var_dump($_POST);
+            echo '</pre>';
+        
         }
 
-        echo '<pre>';
-            var_dump($_POST);
-        echo '</pre>';
+        if($_POST['valider'] &&
+        $_POST['token'] = Session::Get('token')
+        )
+        {
+            // requetes bdd... 
+            // dsdsdf
+            //
+            header('location:/categories');
+            exit();
+        }
+        else {
+            $token = md5(microtime());
+            Session::Set('token',$token);
+            View::$smarty->assign('token',$token );
+        }
         
-        View::Init();
+
+        /**
+         * 
+         * <input type="hidden" name="token" value="{$token}"/>
+          */
+
+
         View::$smarty->display('upload.tpl');
     }
     public function getUserById(int $id,string $title='')
