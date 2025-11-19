@@ -119,6 +119,8 @@ class User
                 $image->process(DIR_PROJECT_PRIVATE.'uploads/'.$name,
                 DIR_PROJECT_PRIVATE.'uploads/1000x100/'.$name);
             }
+
+            echo mime_content_type(DIR_PROJECT_PRIVATE.'uploads/1000x100/'.$name);
             echo '<pre>';
                 var_dump($_POST);
             echo '</pre>';

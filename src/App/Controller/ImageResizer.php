@@ -64,6 +64,7 @@ class ImageResizer
 
         // Options spécifiques
         if ($format === 'png') {
+            echo $format;
             $im->setOption('png:compression-level', (string)$this->options['png_compression']);
             $im->setOption('png:compression-filter', '5');
             $im->setOption('png:compression-strategy', '1');
@@ -79,7 +80,7 @@ class ImageResizer
         $im->writeImage($destPath);
         $im->clear();
         $im->destroy();
-
+        
         return $destPath;
     }
 
